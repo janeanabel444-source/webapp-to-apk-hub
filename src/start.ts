@@ -22,3 +22,10 @@ export const startInstance = createStart(() => ({
   functionMiddleware: [attachSupabaseAuth],
   requestMiddleware: [errorMiddleware],
 }));
+
+// Register service worker (client-side) if running in browser
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(reg => console.log('Service worker registered with scope:', reg.scope))
+    .catch(err => console.warn('Service worker registration failed:', err));
+}
